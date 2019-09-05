@@ -8,7 +8,7 @@ const { host, port } = require('../../config');
 const UserController = () => {
 	const register = async (req, res, next) => {
 		try {
-			let { name, email, password, password2, user_type } = req.body;
+			let { name, email, password, password2, isAdmin } = req.body;
 
 			if (password !== password2) {
 				return res.json(
@@ -36,9 +36,10 @@ const UserController = () => {
 			const userObject = {
 				name,
 				email,
-				password,
-				user_type
+        password,
+        isAdmin
 			};
+
 			userObject.password = bcryptService().hashPassword(userObject);
 			const user = await UserQuery.create(userObject);
 
@@ -63,7 +64,8 @@ const UserController = () => {
 					)
 				);
 			}
-			const userInfo = { _id: user._id, name: user.name, email: user.email };
+			const userInfo = { _id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin };
+
 			if (bcryptService().comparePassword(password, user.password)) {
 				// to issue token with the user object, convert it to JSON
 				const token = authService().issue(userInfo);
@@ -86,20 +88,20 @@ const UserController = () => {
 		}
 	};
 
-	const getAll = async (req, res) => {
-		try {
-			const users = [{ id: 1, name: 'Emmanuel' }, { id: 2, name: 'Maranatha' }];
+	// const getAll = async (req, res) => {
+	// 	try {
+	// 		const users = [{ id: 1, name: 'Emmanuel' }, { id: 2, name: 'Maranatha' }];
 
-			return res.json(sendResponse(httpStatus.OK, 'success!', users, null));
-		} catch (err) {
-			next(err);
-		}
-	};
+	// 		return res.json(sendResponse(httpStatus.OK, 'success!', users, null));
+	// 	} catch (err) {
+	// 		next(err);
+	// 	}
+	// };
 
 	return {
 		register,
-		login,
-		getAll
+		login
+		// getAll
 	};
 };
 

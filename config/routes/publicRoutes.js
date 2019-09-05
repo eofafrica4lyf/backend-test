@@ -2,16 +2,21 @@ const { celebrate: validate } = require('celebrate');
 const paramValidation = require('../../api/validations/user.validation');
 
 const privateRoutes = {
-	'POST /signup': {
+	'POST /user/signup': {
 		path: 'UserController.register',
 		middlewares: [validate(paramValidation.createUser, { abortEarly: false })]
 	},
 
+	'POST /admin/signup': {
+		path: 'UserController.register',
+		middlewares: [validate(paramValidation.createAdmin, { abortEarly: false })]
+	},
+
 	'POST /login': 'UserController.login',
 
-	'GET /users': {
-		path: 'UserController.getAll',
-	}
+	// 'GET /users': {
+	// 	path: 'UserController.getAll',
+	// }
 };
 
 module.exports = privateRoutes;
