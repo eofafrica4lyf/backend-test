@@ -44,7 +44,7 @@ describe('User Signup', () => {
 		expect(body.statusCode).toBe(200);
 		expect(body.payload).toBeTruthy();
 
-		const user = await User.findOne({ email: body.payload.email });
+    const user = await User.findOne({ email: body.payload.email });
 
 		expect(user.id).toBe(body.payload._id);
 		expect(user.email).toBe(body.payload.email);
@@ -120,12 +120,12 @@ describe('Admin Signup', () => {
 		expect(user.id).toBe(body.payload._id);
 		expect(user.email).toBe(body.payload.email);
 		expect(user.isAdmin).toBe(true);
-
 		done();
 	});
 });
 
 describe('User Login', () => {
+
 	beforeEach(async () => {
 		//Signup a user
 		let user = {
@@ -145,7 +145,8 @@ describe('User Login', () => {
 		};
 		admin.password = bcryptService().hashPassword(admin);
 		await User.create(admin);
-	});
+  });
+  
 	test('User | Login | login successfully', async done => {
 		const { body } = await request(api)
 			.post('/public/login')
@@ -166,7 +167,8 @@ describe('User Login', () => {
 		expect(body.payload.isAdmin).toBe(false);
 
 		done();
-	});
+  });
+  
 	test('Admin | Login | login successfully', async done => {
 		const { body } = await request(api)
 			.post('/public/login')
@@ -187,7 +189,8 @@ describe('User Login', () => {
 		expect(body.payload.isAdmin).toBe(true);
 
 		done();
-	});
+  });
+  
 	test('User | Login | login unsuccessful;user does not exist', async done => {
 		const { body } = await request(api)
 			.post('/public/login')
@@ -206,7 +209,8 @@ describe('User Login', () => {
 		expect(findUser).toBe(null);
 
 		done();
-	});
+  });
+  
 	test('User | Login | login unsuccessful; on wrong password', async done => {
 		const { body } = await request(api)
 			.post('/public/login')
@@ -226,4 +230,4 @@ describe('User Login', () => {
 
 		done();
 	});
-});
+  })
