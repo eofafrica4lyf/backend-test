@@ -36,7 +36,7 @@ describe('User Signup', () => {
 			.set('Accept', /json/)
 			.send({
 				name: 'Martin Luke',
-				email: 'martinluther@mail.com',
+				email: 'martinluther@gmail.com',
 				password: 'securepassword',
 				password2: 'securepassword'
 			});
@@ -55,8 +55,8 @@ describe('User Signup', () => {
 
 	test('User | Signup | passwords do not match', async () => {
 		await User.create({
-			name: 'Martin Luke',
-			email: 'martinluther@mail.com',
+			name: 'User user',
+			email: 'user@gmail.com',
 			password: 'securepassword',
 			isAdmin: false
 		});
@@ -65,8 +65,8 @@ describe('User Signup', () => {
 			.post('/public/user/signup')
 			.set('Accept', /json/)
 			.send({
-				name: 'Martin Luke',
-				email: 'martinluther@mail.com',
+				name: 'User user',
+				email: 'user@gmail.com',
 				password: 'securepassword',
 				password2: 'securepassword1'
 			});
@@ -78,8 +78,8 @@ describe('User Signup', () => {
 
 	test('User | Signup | user already exists', async () => {
 		await User.create({
-			name: 'Martin Luke',
-			email: 'martinluther@mail.com',
+			name: 'User user',
+			email: 'user@gmail.com',
 			password: 'securepassword',
 			isAdmin: false
 		});
@@ -88,8 +88,8 @@ describe('User Signup', () => {
 			.post('/public/user/signup')
 			.set('Accept', /json/)
 			.send({
-				name: 'Martin Luke',
-				email: 'martinluther@mail.com',
+				name: 'User user',
+				email: 'user@gmail.com',
 				password: 'securepassword',
 				password2: 'securepassword'
 			});
@@ -99,14 +99,15 @@ describe('User Signup', () => {
 		expect(body.message).toBe('email has been taken');
 	});
 });
+
 describe('Admin Signup', () => {
 	test('Admin | Signup | create successfully', async done => {
 		const { body } = await request(api)
 			.post('/public/admin/signup')
 			.set('Accept', /json/)
 			.send({
-				name: 'Martin Luke',
-				email: 'martinking@mail.com',
+				name: 'Admin admin',
+				email: 'admin@gmail.com',
 				password: 'securepassword',
 				password2: 'securepassword'
 			});
@@ -128,29 +129,29 @@ describe('User Login', () => {
 	beforeEach(async () => {
 		//Signup a user
 		let user = {
-			name: 'Martin Luther',
-			email: 'martinluther@mail.com',
+			name: 'User user',
+			email: 'user@gmail.com',
 			password: 'securepassword',
 			isAdmin: false
 		};
 		user.password = bcryptService().hashPassword(user);
-		const createdUser = await User.create(user);
+		await User.create(user);
 		//Signup a admin
 		let admin = {
-			name: 'Martin King',
-			email: 'martinking@mail.com',
+			name: 'Admin admin',
+			email: 'admin@gmail.com',
 			password: 'securepassword',
 			isAdmin: true
 		};
 		admin.password = bcryptService().hashPassword(admin);
-		const createdAdmin = await User.create(admin);
+		await User.create(admin);
 	});
 	test('User | Login | login successfully', async done => {
 		const { body } = await request(api)
 			.post('/public/login')
 			.set('Accept', /json/)
 			.send({
-				email: 'martinluther@mail.com',
+				email: 'user@gmail.com',
 				password: 'securepassword'
 			})
 			.expect(200);
@@ -171,7 +172,7 @@ describe('User Login', () => {
 			.post('/public/login')
 			.set('Accept', /json/)
 			.send({
-				email: 'martinking@mail.com',
+				email: 'admin@gmail.com',
 				password: 'securepassword'
 			})
 			.expect(200);
@@ -192,7 +193,7 @@ describe('User Login', () => {
 			.post('/public/login')
 			.set('Accept', /json/)
 			.send({
-				email: 'martinluther123@mail.com',
+				email: 'user123@gmail.com',
 				password: 'securepassword'
 			});
 
@@ -211,7 +212,7 @@ describe('User Login', () => {
 			.post('/public/login')
 			.set('Accept', /json/)
 			.send({
-				email: 'martinluther@mail.com',
+				email: 'user@gmail.com',
 				password: 'securepassword1'
 			});
 

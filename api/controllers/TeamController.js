@@ -13,9 +13,9 @@ const TeamController = () => {
 				return res.json(
 					sendResponse(
 						httpStatus.BAD_REQUEST,
-						'team name has been registered',
+						'team name has already been registered',
 						{},
-						{ email: 'team name has been registered' }
+						{ email: 'team name has already been registered' }
 					)
 				);
 			}

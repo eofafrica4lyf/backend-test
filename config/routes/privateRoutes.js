@@ -8,8 +8,7 @@ const privateRoutes = {
 		middlewares: [validate(teamValidation.createTeam), IsAdmin]
 	},
 	'GET /team/view/:id': {
-		path: 'TeamController.view',
-		middlewares: [IsAdmin]
+		path: 'TeamController.view'
 	},
 	'GET /teams/': {
 		path: 'TeamController.viewAll',
