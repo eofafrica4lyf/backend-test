@@ -76,3 +76,5 @@ server.listen(config.port, () => {
   return;
   // return DB;
 });
+
+module.exports = app;

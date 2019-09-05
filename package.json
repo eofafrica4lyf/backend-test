@@ -6,7 +6,8 @@
     "start": "npm run nodemon",
     "poststart": "npm run create-sqlite-db",
     "dev": "cross-env NODE_ENV=development nodemon ./api/api.js",
-    "nodemon": "nodemon --exec npm run dev"
+    "nodemon": "nodemon --exec npm run dev",
+    "test": "jest --coverage --runInBand --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
