@@ -2,8 +2,8 @@ const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 const httpStatus = require('http-status');
 const sendResponse = require('../../helpers/response');
-const UserQuery = require('../queries/user.queries');
-const { host, port } = require('../../config');
+const {UserQuery} = require('../queries/queries');
+
 
 const UserController = () => {
 	const register = async (req, res, next) => {
@@ -88,20 +88,9 @@ const UserController = () => {
 		}
 	};
 
-	// const getAll = async (req, res) => {
-	// 	try {
-	// 		const users = [{ id: 1, name: 'Emmanuel' }, { id: 2, name: 'Maranatha' }];
-
-	// 		return res.json(sendResponse(httpStatus.OK, 'success!', users, null));
-	// 	} catch (err) {
-	// 		next(err);
-	// 	}
-	// };
-
 	return {
 		register,
 		login
-		// getAll
 	};
 };
 

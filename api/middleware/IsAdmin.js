@@ -2,9 +2,9 @@ const httpStatus = require('http-status');
 const sendResponse = require('../../helpers/response');
 
 module.exports = (req, res, next) => {
-  const { user_type } = req.token;
+  const { isAdmin } = req.token;
 
-  if (user_type !== 'admin') {
+  if (isAdmin !== true) {
     return res.json(
       sendResponse(
         httpStatus.UNAUTHORIZED,

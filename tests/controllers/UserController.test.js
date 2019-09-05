@@ -1,8 +1,6 @@
 const request = require('supertest');
 const bcryptService = require('../../api/services/bcrypt.service');
-// const { beforeAction, afterAction } = require('../setup/_setup');
 const User = require('../../api/models/User');
-// const UserQuery = require('../../api/queries/user.queries');
 const {
 	beforeAction,
 	removeAllCollections,
@@ -11,13 +9,6 @@ const {
 	mongooseConnect
 } = require('../setup/test-setup');
 
-// let api = beforeAction()
-// 	.then(res => {
-// 		console.log('Express instance');
-// 		return;
-// 	})
-// 	.catch(error => console.log(error));
-
 // Setup a Test Database
 let api;
 let databaseName = 'test-virtual-premer-league';
@@ -25,25 +16,18 @@ let dbConnection;
 beforeAll(async () => {
 	api = await beforeAction();
 	await mongooseConnect(databaseName);
-	console.log('beforeAll done');
-	// return;
 });
 
 // Cleans up database between each test
 afterEach(async () => {
 	await removeAllCollections();
-	console.log('afterEach done');
-	// return;
 });
 
 // Disconnect Mongoose
 afterAll(async () => {
 	await dropAllCollections();
 	await closeMongooseConnection();
-	console.log('afterAll done');
-	// setTimeout(() => process.exit(), 1000)
 });
-
 
 describe('User Signup', () => {
 	test('User | Signup | create successfully', async done => {
@@ -54,13 +38,13 @@ describe('User Signup', () => {
 				name: 'Martin Luke',
 				email: 'martinluther@mail.com',
 				password: 'securepassword',
-        password2: 'securepassword',
+				password2: 'securepassword'
 			});
-    
+
 		expect(body.statusCode).toBe(200);
 		expect(body.payload).toBeTruthy();
 
-    const user = await User.findOne({ email: body.payload.email });
+		const user = await User.findOne({ email: body.payload.email });
 
 		expect(user.id).toBe(body.payload._id);
 		expect(user.email).toBe(body.payload.email);
@@ -74,7 +58,7 @@ describe('User Signup', () => {
 			name: 'Martin Luke',
 			email: 'martinluther@mail.com',
 			password: 'securepassword',
-      isAdmin: false
+			isAdmin: false
 		});
 
 		const { body } = await request(api)
@@ -84,7 +68,7 @@ describe('User Signup', () => {
 				name: 'Martin Luke',
 				email: 'martinluther@mail.com',
 				password: 'securepassword',
-				password2: 'securepassword1',
+				password2: 'securepassword1'
 			});
 
 		expect(body.payload).toEqual({});
@@ -97,7 +81,7 @@ describe('User Signup', () => {
 			name: 'Martin Luke',
 			email: 'martinluther@mail.com',
 			password: 'securepassword',
-      isAdmin: false
+			isAdmin: false
 		});
 
 		const { body } = await request(api)
@@ -107,7 +91,7 @@ describe('User Signup', () => {
 				name: 'Martin Luke',
 				email: 'martinluther@mail.com',
 				password: 'securepassword',
-				password2: 'securepassword',
+				password2: 'securepassword'
 			});
 
 		expect(body.payload).toEqual({});
@@ -124,13 +108,13 @@ describe('Admin Signup', () => {
 				name: 'Martin Luke',
 				email: 'martinking@mail.com',
 				password: 'securepassword',
-        password2: 'securepassword',
+				password2: 'securepassword'
 			});
-    
+
 		expect(body.statusCode).toBe(200);
 		expect(body.payload).toBeTruthy();
 
-    const user = await User.findOne({ email: body.payload.email });
+		const user = await User.findOne({ email: body.payload.email });
 
 		expect(user.id).toBe(body.payload._id);
 		expect(user.email).toBe(body.payload.email);
@@ -147,7 +131,7 @@ describe('User Login', () => {
 			name: 'Martin Luther',
 			email: 'martinluther@mail.com',
 			password: 'securepassword',
-      isAdmin: false
+			isAdmin: false
 		};
 		user.password = bcryptService().hashPassword(user);
 		const createdUser = await User.create(user);
@@ -156,12 +140,10 @@ describe('User Login', () => {
 			name: 'Martin King',
 			email: 'martinking@mail.com',
 			password: 'securepassword',
-      isAdmin: true
+			isAdmin: true
 		};
 		admin.password = bcryptService().hashPassword(admin);
 		const createdAdmin = await User.create(admin);
-    // console.log('User',user, createdUser);
-    console.log('beforeEach done');
 	});
 	test('User | Login | login successfully', async done => {
 		const { body } = await request(api)

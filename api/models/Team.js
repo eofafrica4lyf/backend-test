@@ -1,28 +1,27 @@
 const mongoose = require('../../config/mongo-database');
 
-const userSchema = new mongoose.Schema({
+const teamSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
 		minlength: 5,
 		maxlength: 50
 	},
-	email: {
+	stadium: {
 		type: String,
 		required: true,
 		minlength: 5,
 		maxlength: 255,
 		unique: true
 	},
-	password: {
+	coach: {
 		type: String,
 		required: true,
 		minlength: 5,
 		maxlength: 1024
-	},
-	isAdmin: Boolean
+	}
 });
 
-const User = mongoose.model('User', userSchema);
+const Team = mongoose.model('Team', teamSchema);
 
-module.exports = User;
+module.exports = Team;
