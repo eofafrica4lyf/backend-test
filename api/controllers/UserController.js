@@ -8,20 +8,22 @@ const { host, port } = require('../../config');
 const UserController = () => {
   const register = async (req, res, next) => {
     try {
-      const { name, email, phone, password, password2, user_type } = req.body;
+      let { name, email, password, password2, user_type } = req.body;
+      console.log("req.body", req.body);
 
       if (password !== password2) {
         return res.json(
           sendResponse(
             httpStatus.BAD_REQUEST,
-            'Passwords does not match',
+            'Passwords do not match',
             {},
-            { password: 'password does not match' }
+            { password: 'passwords do not match' }
           )
         );
       }
 
       const userExist = await UserQuery.findByEmail(email);
+      
       if (userExist) {
         return res.json(
           sendResponse(
@@ -32,14 +34,14 @@ const UserController = () => {
           )
         );
       }
-
-      const user = await UserQuery.create({
+      const userObject = {
         name,
         email,
-        phone,
         password,
         user_type
-      });
+      }
+      userObject.password = bcryptService().hashPassword(userObject);
+      const user = await UserQuery.create(userObject);
 
       return res.json(sendResponse(httpStatus.OK, 'success', user, null));
     } catch (err) {

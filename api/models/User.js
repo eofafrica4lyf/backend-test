@@ -1,13 +1,6 @@
 const jwt = require('jsonwebtoken');
 const mongoose = require('../../config/mongo-database');
 
-const orderSchema = new mongoose.Schema({
-  userId: String,
-  name: String,
-  noOfOrders: Number,
-  orderType: String,
-  createdAt: Date,
-});
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -47,5 +40,6 @@ userSchema.methods.generateAuthTokenUser = function() {
   return token;
 };
 
-const Order = mongoose.model("Order", orderSchema);
 const User = mongoose.model("User", userSchema);
+
+module.exports = User;
