@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run nodemon",
+    "start","node ./api/api.js",
+    "run": "npm run start",
     "poststart": "npm run create-sqlite-db",
     "dev": "cross-env NODE_ENV=development nodemon ./api/api.js",
     "nodemon": "nodemon --exec npm run dev",
