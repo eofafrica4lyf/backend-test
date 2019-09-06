@@ -1,6 +1,7 @@
 const JWTService = require('../services/auth.service');
+// let client = require('redis').createClient();
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
 	let tokenToVerify;
 
 	if (req.header('Authorization')) {
@@ -9,6 +10,8 @@ module.exports = (req, res, next) => {
 		if (parts.length === 2) {
 			const scheme = parts[0];
 			const credentials = parts[1];
+			const a = await client.hgetall(credentials+"j");
+			console.log('6yhjkoiudjwlfwpoifjhf', a);
 
 			if (/^Bearer$/.test(scheme)) {
 				tokenToVerify = credentials;
