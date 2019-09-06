@@ -3,7 +3,7 @@ const bcryptService = require('../services/bcrypt.service');
 const httpStatus = require('http-status');
 const sendResponse = require('../../helpers/response');
 const { UserQuery } = require('../queries/queries');
-let client = require('redis').createClient();
+// let client = require('redis').createClient();
 // const {
 // 	setTokenInRedis,
 // 	getTokenFromRedis
@@ -84,28 +84,11 @@ const UserController = () => {
 				// to issue token with the user object, convert it to JSON
 				const token = authService().issue(userInfo);
 
-				// return setTokenInRedis(token, JSON.stringify({id: userInfo._id.toString(), isAdmin: userInfo.isAdmin})).then(() => {
-				return setTokenInRedis(token, [
-					'id',
-					userInfo._id.toString(),
-					'isAdmin',
-					userInfo.isAdmin
-				])
-					.then(async () => {
+
 						return res.json(
 							sendResponse(httpStatus.OK, 'success', userInfo, null, token)
 						);
-					})
-					.catch(() => {
-						return res.json(
-							sendResponse(
-								httpStatus.BAD_REQUEST,
-								'something went wrong',
-								{},
-								{ error: 'something went wrong' }
-							)
-						);
-					});
+					
 			}
 
 			return res.json(

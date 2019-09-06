@@ -1,5 +1,5 @@
 const JWTService = require('../services/auth.service');
-let client = require('redis').createClient();
+// let client = require('redis').createClient();
 
 module.exports = async (req, res, next) => {
 	let tokenToVerify;
