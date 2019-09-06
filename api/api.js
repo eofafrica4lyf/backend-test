@@ -54,7 +54,9 @@ app.use(
 // parsing the request bodys
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.get('/', (req,res,next) =>{
+  return res.json({msg: "All is well"});
+})
 // secure your private routes with jwt authentication middleware
 app.all('/api/v1/private/*', (req, res, next) => auth(req, res, next));
 
