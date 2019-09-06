@@ -29,8 +29,8 @@ const removeAllCollections = async () => {
 	for (const collectionName of collections) {
 		const collection = mongoose.connection.collections[collectionName];
 		await collection.deleteMany();
-  }
-  return;
+	}
+	return;
 };
 
 const dropAllCollections = async () => {
@@ -48,19 +48,20 @@ const dropAllCollections = async () => {
 				return;
 			console.log(error.message);
 		}
-  }
-  return;
+	}
+	return;
 };
 
 const closeMongooseConnection = async () => {
-  await mongoose.connection.close();
-  return;
+	await mongoose.connection.close();
+	return;
 };
 
-const mongooseConnect = async (databaseName) => {
-	const url = `mongodb://localhost:27017/${databaseName}`;
-  await mongoose.connect(url, { useNewUrlParser: true });
-  return;
+const mongooseConnect = async databaseName => {
+	// const url = `mongodb://localhost:27017/${databaseName}`;
+	const url = process.env.MONGO_URI;
+	await mongoose.connect(url, { useNewUrlParser: true });
+	return;
 };
 
 module.exports = {
@@ -87,6 +88,6 @@ module.exports = {
 	beforeAction,
 	removeAllCollections,
 	dropAllCollections,
-  closeMongooseConnection,
-  mongooseConnect
+	closeMongooseConnection,
+	mongooseConnect
 };

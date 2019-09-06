@@ -2,8 +2,12 @@ const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 const httpStatus = require('http-status');
 const sendResponse = require('../../helpers/response');
-const {UserQuery} = require('../queries/queries');
-
+const { UserQuery } = require('../queries/queries');
+let client = require('redis').createClient();
+// const {
+// 	setTokenInRedis,
+// 	getTokenFromRedis
+// } = require('../../helpers/setTokenInRedis');
 
 const UserController = () => {
 	const register = async (req, res, next) => {
@@ -36,8 +40,8 @@ const UserController = () => {
 			const userObject = {
 				name,
 				email,
-        password,
-        isAdmin
+				password,
+				isAdmin
 			};
 
 			userObject.password = bcryptService().hashPassword(userObject);
@@ -47,6 +51,11 @@ const UserController = () => {
 		} catch (err) {
 			next(err);
 		}
+	};
+
+	// let limiter = require('express-limiter')(app, client)
+	const setTokenInRedis = (token, id) => {
+		return Promise.resolve(client.hmset(token, id));
 	};
 
 	const login = async (req, res, next) => {
@@ -64,15 +73,39 @@ const UserController = () => {
 					)
 				);
 			}
-			const userInfo = { _id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin };
+			const userInfo = {
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				isAdmin: user.isAdmin
+			};
 
 			if (bcryptService().comparePassword(password, user.password)) {
 				// to issue token with the user object, convert it to JSON
 				const token = authService().issue(userInfo);
 
-				return res.json(
-					sendResponse(httpStatus.OK, 'success', userInfo, null, token)
-				);
+				// return setTokenInRedis(token, JSON.stringify({id: userInfo._id.toString(), isAdmin: userInfo.isAdmin})).then(() => {
+				return setTokenInRedis(token, [
+					'id',
+					userInfo._id.toString(),
+					'isAdmin',
+					userInfo.isAdmin
+				])
+					.then(async () => {
+						return res.json(
+							sendResponse(httpStatus.OK, 'success', userInfo, null, token)
+						);
+					})
+					.catch(() => {
+						return res.json(
+							sendResponse(
+								httpStatus.BAD_REQUEST,
+								'something went wrong',
+								{},
+								{ error: 'something went wrong' }
+							)
+						);
+					});
 			}
 
 			return res.json(
