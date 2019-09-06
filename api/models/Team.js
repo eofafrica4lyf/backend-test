@@ -5,14 +5,14 @@ const teamSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		minlength: 5,
-		maxlength: 50
+		maxlength: 50,
+		unique: true
 	},
 	stadium: {
 		type: String,
 		required: true,
 		minlength: 5,
 		maxlength: 255,
-		unique: true
 	},
 	coach: {
 		type: String,

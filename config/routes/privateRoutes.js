@@ -1,6 +1,7 @@
 const { celebrate: validate } = require('celebrate');
 const IsAdmin = require('../../api/middleware/IsAdmin');
 const teamValidation = require('../../api/validations/team.validation');
+const fixtureValidation = require('../../api/validations/fixture.validation');
 
 const privateRoutes = {
 	'POST /team/create': {
@@ -21,14 +22,30 @@ const privateRoutes = {
 	'DELETE /team/remove/:id': {
 		path: 'TeamController.remove',
 		middlewares: [IsAdmin]
+	},
+
+	'POST /fixture/create': {
+		path: 'FixtureController.create',
+		middlewares: [validate(fixtureValidation.createFixture), IsAdmin]
+	},
+	'GET /fixture/view/:id': {
+		path: 'FixtureController.view',
+		middlewares: [IsAdmin]
+	},
+	'GET /fixtures/': {
+		path: 'FixtureController.viewAll',
+		middlewares: [IsAdmin]
+	},
+	'PUT /fixture/update/:id': {
+		path: 'FixtureController.update',
+		middlewares: [IsAdmin]
+	},
+	'DELETE /fixture/remove/:id': {
+		path: 'FixtureController.remove',
+		middlewares: [IsAdmin]
 	}
 
-	// 'POST /create-team': {
-	// 	path: 'AgencyProfileController.createProfile',
-	// 	middlewares: [
-	// 		validate(profileValidation.createProfile, { abortEarly: false })
-	// 	]
-	// }
+
 };
 
 module.exports = privateRoutes;

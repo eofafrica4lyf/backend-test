@@ -20,6 +20,7 @@
     "dotenv": "^8.1.0",
     "eslint-config-prettier": "^6.2.0",
     "express": "~4.16.1",
+    "express-limiter": "^1.6.1",
     "express-routes-mapper": "^1.1.0",
     "helmet": "^3.21.0",
     "http-errors": "~1.6.3",
@@ -29,7 +30,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.12",
     "morgan": "~1.9.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "redis": "^2.8.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "cross-env": "^5.2.1",
