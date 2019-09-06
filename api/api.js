@@ -26,6 +26,13 @@ const environment = process.env.NODE_ENV;
  * express application
  */
 const app = express();
+
+//Rate Limiter with Redis
+// let client = require('redis').createClient();
+ 
+// let limiter = require('express-limiter')(app, client);
+
+
 const server = http.Server(app);
 const mappedOpenRoutes = mapRoutes(config.publicRoutes, 'api/controllers/');
 const mappedAuthRoutes = mapRoutes(config.privateRoutes, 'api/controllers/');
