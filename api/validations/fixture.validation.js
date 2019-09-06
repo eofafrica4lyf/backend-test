@@ -19,6 +19,7 @@ module.exports = {
 				.min(6)
 				.max(255)
 				.required(),
+			status: Joi.string().max(10),
 			dateTime: Joi.string().default(new Date())
 		}
 	},

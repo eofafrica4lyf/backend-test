@@ -27,8 +27,8 @@ const environment = process.env.NODE_ENV;
  */
 const app = express();
 
-//Rate Limiter with Redis
-// let client = require('redis').createClient();
+// Rate Limiter with Redis
+let client = require('redis').createClient();
  
 // let limiter = require('express-limiter')(app, client);
 
