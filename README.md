@@ -2,6 +2,8 @@
 
 Create a API that serves the latest scores of fixtures of matches in a “**Mock Premier League**”
 
+Link: https://sterling-backend-test.herokuapp.com/
+
 ## User Types
 
 There should be:
